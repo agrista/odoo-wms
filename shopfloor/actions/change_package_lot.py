@@ -123,7 +123,7 @@ class ChangePackageLot(Component):
                     move_line.location_id,
                     self.env["stock.quant.package"].browse(),
                     lot,
-                    move_line.product_qty,
+                    move_line.reserved_qty,
                 )
                 inventory.create_control_stock(
                     move_line.location_id,
@@ -142,7 +142,7 @@ class ChangePackageLot(Component):
         if not float_is_zero(
             available_quantity, precision_rounding=product.uom_id.rounding
         ) and is_lesser(
-            available_quantity, move_line.product_qty, product.uom_id.rounding
+            available_quantity, move_line.reserved_qty, product.uom_id.rounding
         ):
             new_uom_qty = product.uom_id._compute_quantity(
                 available_quantity, move_line.product_uom_id, rounding_method="HALF-UP"

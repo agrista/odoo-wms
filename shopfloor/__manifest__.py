@@ -42,7 +42,7 @@
         # This must be an optional dep
         "delivery",
         #  OCA / product-attribute
-        "product_packaging_type",
+        "product_packaging_level",
         #  OCA / delivery
         "stock_picking_delivery_link",
     ],

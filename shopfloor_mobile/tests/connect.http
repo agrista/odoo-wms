@@ -1,0 +1,4 @@
+### GET purchases
+POST http://loop.local:8099/shopfloor/api/test/app/user_config.json
+api-key: 023f817b10b58ce0e95c3c8fec831f10af4477e7
+accept: application/json

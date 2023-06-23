@@ -3,8 +3,8 @@
 from odoo import models
 
 
-class StockInventory(models.Model):
-    _inherit = "stock.inventory"
+class StockValuationLayer(models.Model):
+    _inherit = "stock.valuation.layer"
 
     def user_has_groups(self, groups):
         if self.env.context.get("_sf_inventory"):

@@ -2,7 +2,6 @@ from . import priority_postpone_mixin
 from . import shopfloor_menu
 from . import shopfloor_app
 from . import stock_picking_type
-from . import stock_inventory
 from . import stock_location
 from . import stock_move
 from . import stock_move_line
@@ -11,3 +10,4 @@ from . import stock_picking
 from . import stock_picking_batch
 from . import stock_quant
 from . import stock_quant_package
+from . import stock_valuation_layer

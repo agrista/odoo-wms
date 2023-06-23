@@ -24,7 +24,7 @@ class StockPicking(models.Model):
     )
 
     @api.depends(
-        "move_line_ids", "move_line_ids.product_qty", "move_line_ids.product_id.weight"
+        "move_line_ids", "move_line_ids.reserved_qty", "move_line_ids.product_id.weight"
     )
     def _compute_picking_info(self):
         for item in self:
@@ -45,7 +45,7 @@ class StockPicking(models.Model):
     def _calc_weight(self):
         weight = 0.0
         for move_line in self.mapped("move_line_ids"):
-            weight += move_line.product_qty * move_line.product_id.weight
+            weight += move_line.reserved_qty * move_line.product_id.weight
         return weight
 
     def _check_move_lines_map_quant_package(self, package):
@@ -74,7 +74,7 @@ class StockPicking(models.Model):
         """
         self.ensure_one()
         # Check in the picking all the moves which are partially available or confirmed
-        moves = self.move_lines.filtered(
+        moves = self.move_ids.filtered(
             lambda m: m.state in ("partially_available", "confirmed")
         )
         # If one of these moves has an ancestor, split the moves
@@ -90,10 +90,10 @@ class StockPicking(models.Model):
         moves.split_other_move_lines(moves.move_line_ids)
         # Put assigned moves related to processed move lines into a separate transfer
         if move_lines:
-            assigned_moves = self.move_lines & move_lines.move_id
+            assigned_moves = self.move_line_ids & move_lines.move_id
         else:
-            assigned_moves = self.move_lines.filtered(lambda m: m.state == "assigned")
-        if assigned_moves == self.move_lines:
+            assigned_moves = self.move_line_ids.filtered(lambda m: m.state == "assigned")
+        if assigned_moves == self.move_line_ids:
             return self.id
         new_picking = self.copy(
             {
